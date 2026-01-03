@@ -1,0 +1,33 @@
+package scylladao
+
+import "github.com/google/uuid"
+
+type NewsLikeCountRow struct {
+	NewsID uuid.UUID
+	Count  int64
+}
+
+func (d *ScyllaDB) IncrNewsLikeCount(newsID uuid.UUID) error {
+	err := d.DB().Query(
+		`UPDATE news_like_count SET count = count + 1 WHERE news_id = ?`,
+		newsID,
+	).Exec()
+	return err
+}
+
+func (d *ScyllaDB) DecrNewsLikeCount(newsID uuid.UUID) error {
+	err := d.DB().Query(
+		`UPDATE news_like_count SET count = count - 1 WHERE news_id = ?`,
+		newsID,
+	).Exec()
+	return err
+}
+
+func (d *ScyllaDB) GetNewsLikeCount(newsID uuid.UUID) (int64, error) {
+	var count int64
+	err := d.DB().Query(
+		`SELECT count FROM news_like_count WHERE news_id = ?`,
+		newsID,
+	).Scan(&count)
+	return count, err
+}
