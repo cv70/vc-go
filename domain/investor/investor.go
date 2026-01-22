@@ -5,7 +5,8 @@ import (
 	"strconv"
 	"strings"
 	"vc-go/datasource"
-	"vc-go/pkg/gslice"
+
+	"github.com/cv70/pkgo/gslice"
 
 	"github.com/pkg/errors"
 )

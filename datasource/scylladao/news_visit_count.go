@@ -2,11 +2,6 @@ package scylladao
 
 import "github.com/google/uuid"
 
-type NewVisitCountRow struct {
-	NewsID uuid.UUID
-	Count  int64
-}
-
 func (d *ScyllaDB) IncrNewsVisitCount(newsID uuid.UUID) error {
 	err := d.DB().Query(
 		`UPDATE news_visit_count SET count = count + 1 WHERE news_id = ?`,

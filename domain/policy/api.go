@@ -2,7 +2,8 @@ package policy
 
 import (
 	"strings"
-	"vc-go/pkg/ghttp"
+
+	"github.com/cv70/pkgo/ghttp"
 
 	"github.com/gin-gonic/gin"
 	"k8s.io/klog/v2"

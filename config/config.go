@@ -19,7 +19,12 @@ type Config struct {
 	Scylla        *ScyllaConfig    `yaml:"scylla"`
 	LLM           *LLMConfig       `yaml:"llm"`
 	TextEmbedding *EmbeddingConfig `yaml:"text_embedding"`
+	Browser       *BrowserConfig   `yaml:"browser"`
 	JWT           *JWTConfig       `yaml:"jwt"`
+}
+
+type BrowserConfig struct {
+	URL string `yaml:"url"`
 }
 
 type ServerConfig struct {

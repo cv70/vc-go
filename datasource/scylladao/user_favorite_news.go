@@ -7,7 +7,7 @@ import (
 // UserFavoriteNewsRow 分区键: (user_id, news_id)
 type UserFavoriteNewsRow struct {
 	BaseModel
-	UserID uuid.UUID
+	UserID uint
 	NewsID uuid.UUID
 }
 

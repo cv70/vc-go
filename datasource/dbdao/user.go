@@ -3,11 +3,11 @@ package dbdao
 import (
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
+	"gorm.io/gorm"
 )
 
 // User 用户实体
 type User struct {
-	BaseModel
 	Phone        string   `db:"phone" json:"phone"`
 	Username     string   `db:"username" json:"username"`
 	Password     string   `db:"password" json:"-"` // 不返回密码
@@ -20,8 +20,11 @@ type User struct {
 
 func (d *DB) GetUserByPhone(phone string) (*User, error) {
 	var user User
-	result := d.DB().Where("phone = ?", phone).First(&user)
-	if result.Error != nil {
+	err := d.DB().Where("phone = ?", phone).First(&user).Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, nil
+		}
 		return nil, errors.New("user not found")
 	}
 	return &user, nil
@@ -49,10 +52,6 @@ func (d *DB) ExistUsername(username string) (bool, error) {
 func (d *DB) CreateUser(user *User) error {
 	if user == nil {
 		return errors.New("user is nil")
-	}
-	err := user.Reset()
-	if err != nil {
-		return err
 	}
 	result := d.DB().Create(user)
 	if result.Error != nil {

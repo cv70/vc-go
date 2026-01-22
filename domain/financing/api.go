@@ -1,10 +1,10 @@
 package financing
 
 import (
-	"vc-go/pkg/ghttp"
+	"log/slog"
+	"vc-go/utils"
 
 	"github.com/gin-gonic/gin"
-	"k8s.io/klog/v2"
 )
 
 // UploadBP 上传商业计划书
@@ -12,19 +12,19 @@ func (d *FinancingDomain) ApiUploadBP(c *gin.Context) {
 	var req UploadBPReq
 	err := c.ShouldBind(&req)
 	if err != nil {
-		klog.Errorf("failed to parse body: %v", err)
-		ghttp.RespError(c, 400, "failed to parse body")
+		slog.Error("failed to parse body", slog.Any("e", err))
+		utils.RespError(c, 400, "failed to parse body")
 		return
 	}
 
 	res, err := d.UploadBP(c, &req)
 	if err != nil {
-		klog.Errorf("failed to upload bp: %v", err)
-		ghttp.RespError(c, 500, "failed to upload bp")
+		slog.Error("failed to upload bp", slog.Any("e", err))
+		utils.RespError(c, 500, "failed to upload bp")
 		return
 	}
 
-	ghttp.RespSuccess(c, res)
+	utils.RespSuccess(c, res)
 }
 
 // MatchInvestors 匹配投资机构
@@ -32,8 +32,8 @@ func (d *FinancingDomain) ApiRecommendInvestors(c *gin.Context) {
 	var req RecommendInvestorsReq
 	err := c.ShouldBind(&req)
 	if err != nil {
-		klog.Errorf("failed to parse body: %v", err)
-		ghttp.RespError(c, 400, "failed to parse body")
+		slog.Error("failed to parse body", slog.Any("e", err))
+		utils.RespError(c, 400, "failed to parse body")
 		return
 	}
 
@@ -43,12 +43,12 @@ func (d *FinancingDomain) ApiRecommendInvestors(c *gin.Context) {
 
 	res, err := d.RecommendInvestors(c, &req)
 	if err != nil {
-		klog.Errorf("failed to recommend inverstors: %v", err)
-		ghttp.RespError(c, 400, "failed to recommend inverstors")
+		slog.Error("failed to recommend inverstors", slog.Any("e", err))
+		utils.RespError(c, 400, "failed to recommend inverstors")
 		return
 	}
 
-	ghttp.RespSuccess(c, res)
+	utils.RespSuccess(c, res)
 }
 
 // ApiAnalyzeBP 分析商业计划书
@@ -56,17 +56,17 @@ func (d *FinancingDomain) ApiAnalyzeBP(c *gin.Context) {
 	var req AnalyzeBPReq
 	err := c.ShouldBind(&req)
 	if err != nil {
-		klog.Errorf("failed to parse body: %v", err)
-		ghttp.RespError(c, 400, "failed to parse body")
+		slog.Error("failed to parse body", slog.Any("e", err))
+		utils.RespError(c, 400, "failed to parse body")
 		return
 	}
 
 	res, err := d.AnalyzeBP(c, &req)
 	if err != nil {
-		klog.Errorf("failed to analyze bp: %v", err)
-		ghttp.RespError(c, 500, "failed to analyze bp")
+		slog.Error("failed to analyze bp", slog.Any("e", err))
+		utils.RespError(c, 500, "failed to analyze bp")
 		return
 	}
 
-	ghttp.RespSuccess(c, res)
+	utils.RespSuccess(c, res)
 }

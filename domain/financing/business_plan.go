@@ -8,11 +8,11 @@ import (
 	"strings"
 	"vc-go/datasource/dbdao"
 	"vc-go/infra"
-	"vc-go/pkg/gstr"
-	"vc-go/pkg/helper"
+
+	"github.com/cv70/pkgo/gstr"
+	"github.com/cv70/pkgo/helper"
 
 	"github.com/cloudwego/eino/schema"
-	"github.com/google/uuid"
 	"github.com/pkg/errors"
 )
 
@@ -41,25 +41,20 @@ func (d *FinancingDomain) UploadBP(ctx context.Context, req *UploadBPReq) (*Uplo
 	}
 
 	// 将向量存入向量数据库
-	err = d.VectorDB.InsertBusinessPlanVector(ctx, []string{bp.ID.String()}, [][]float32{bp.Embedding})
+	err = d.VectorDB.InsertBusinessPlanVector(ctx, []string{bp.ID}, [][]float32{bp.Embedding})
 	if err != nil {
 		return nil, errors.WithMessage(err, "failed to insert vector to milvus")
 	}
 
 	return &UploadBPRes{
-		ID: bp.ID.String(),
+		ID: bp.ID,
 	}, nil
 }
 
 // RecommendInvestors 推荐匹配的投资机构
 func (d *FinancingDomain) RecommendInvestors(ctx context.Context, req *RecommendInvestorsReq) (*RecommendInvestorsRes, error) {
-	// 获取BP数据
-	bpID, err := uuid.Parse(req.BPID)
-	if err != nil {
-		return nil, errors.New("invalid bp id")
-	}
-
-	bp, err := d.DB.GetBusinessPlan(bpID)
+	// 查询BP内容
+	bp, err := d.DB.GetBusinessPlan(req.BPID)
 	if err != nil {
 		return nil, errors.New("business plan not found")
 	}

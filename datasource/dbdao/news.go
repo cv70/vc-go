@@ -4,10 +4,12 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
+	"gorm.io/gorm"
 )
 
 // News 帖子结构
 type News struct {
+	BaseModel
 	Title       string   `json:"title"`
 	Content     string   `json:"content"`
 	Category    string   `json:"category"` // 分类：政策解读、成功案例、融资动态、活动日历
@@ -20,14 +22,26 @@ type News struct {
 
 func (d *DB) ListNews(ids ...uint) ([]*News, error) {
 	newsList := []*News{}
-	result := d.DB().Where("id IN ?", ids).Find(&newsList)
-	return newsList, result.Error
+	err := d.DB().Where("id IN ?", ids).Find(&newsList).Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, nil
+		}
+		return nil, err
+	}
+	return newsList, nil
 }
 
 func (d *DB) DetailNews(id uint) (*News, error) {
 	news := News{}
-	result := d.DB().Where("id = ?", id).First(&news)
-	return &news, result.Error
+	err := d.DB().Where("id = ?", id).First(&news).Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, nil
+		}
+		return nil, err
+	}
+	return &news, nil
 }
 
 func (d *DB) InsertNews(news *News) error {

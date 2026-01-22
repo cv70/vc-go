@@ -3,7 +3,8 @@ package infra
 import (
 	"context"
 	"vc-go/config"
-	"vc-go/pkg/sdk"
+
+	"vc-go/sdk"
 )
 
 func NewEmbeddingModel(ctx context.Context, c *config.EmbeddingConfig) (sdk.EmbeddingClient, error) {

@@ -4,10 +4,10 @@ import (
 	"context"
 	"vc-go/config"
 	"vc-go/datasource/dbdao"
-	"vc-go/datasource/vectordao"
 	"vc-go/datasource/scylladao"
+	"vc-go/datasource/vectordao"
 
-	"vc-go/pkg/sdk"
+	"vc-go/sdk"
 
 	"github.com/redis/go-redis/v9"
 )

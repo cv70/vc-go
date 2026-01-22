@@ -1,7 +1,6 @@
 package dbdao
 
 import (
-	"github.com/google/uuid"
 	"github.com/pkg/errors"
 )
 
@@ -22,10 +21,6 @@ func (d *DB) InsertBusinessPlan(plan *BusinessPlan) error {
 	if plan == nil {
 		return errors.New("business plan is empty")
 	}
-	err := plan.Reset()
-	if err != nil {
-		return err
-	}
 	result := d.DB().Create(plan)
 	if result.Error != nil {
 		return result.Error
@@ -33,13 +28,13 @@ func (d *DB) InsertBusinessPlan(plan *BusinessPlan) error {
 	return nil
 }
 
-func (d *DB) GetBusinessPlan(id uuid.UUID) (*BusinessPlan, error) {
+func (d *DB) GetBusinessPlan(id uint) (*BusinessPlan, error) {
 	plan := BusinessPlan{}
 	result := d.DB().Where("id = ?", plan.ID).Find(&plan)
 	return &plan, result.Error
 }
 
-func (d *DB) GetBusinessPlans(ids ...uuid.UUID) ([]*BusinessPlan, error) {
+func (d *DB) GetBusinessPlans(ids ...uint) ([]*BusinessPlan, error) {
 	plans := []*BusinessPlan{}
 	if len(ids) == 0 {
 		return plans, nil

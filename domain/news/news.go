@@ -6,8 +6,10 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"vc-go/datasource"
 	"vc-go/datasource/scylladao"
-	"vc-go/pkg/gslice"
+
+	"github.com/cv70/pkgo/gslice"
 
 	"github.com/gin-gonic/gin"
 	"github.com/mmcdole/gofeed"
@@ -18,12 +20,12 @@ import (
 // AddNews 添加帖子
 func (d *NewsDomain) AddNews(ctx *gin.Context, req *AddNewsReq) (*AddNewsRes, error) {
 	news := &scylladao.NewsRow{
-		Title:       req.Title,
-		Content:     req.Content,
-		Category:    req.Category,
-		Tags:        req.Tags,
-		Region:      req.Region,
-		Industry:    req.Industry,
+		Title:    req.Title,
+		Content:  req.Content,
+		Category: req.Category,
+		Tags:     req.Tags,
+		Region:   req.Region,
+		Industry: req.Industry,
 	}
 
 	err := d.Scylla.SaveNews(news)

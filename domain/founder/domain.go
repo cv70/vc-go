@@ -3,7 +3,8 @@ package founder
 import (
 	"vc-go/datasource/dbdao"
 	"vc-go/datasource/vectordao"
-	"vc-go/pkg/sdk"
+
+	"github.com/cv70/pkgo/sdk"
 )
 
 type FounderDomain struct {

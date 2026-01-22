@@ -1,7 +1,6 @@
 package dbdao
 
 import (
-	"github.com/google/uuid"
 	"github.com/pkg/errors"
 )
 
@@ -23,10 +22,6 @@ func (d *DB) InsertFounder(founder *FounderExtra) error {
 	if founder == nil {
 		return errors.New("founder extra is empty")
 	}
-	err := founder.Reset()
-	if err != nil {
-		return err
-	}
 	result := d.DB().Create(founder)
 	if result.Error != nil {
 		return result.Error
@@ -34,7 +29,7 @@ func (d *DB) InsertFounder(founder *FounderExtra) error {
 	return nil
 }
 
-func (d *DB) GetFounders(ids ...uuid.UUID) ([]*FounderExtra, error) {
+func (d *DB) GetFounders(ids ...uint) ([]*FounderExtra, error) {
 	founders := []*FounderExtra{}
 	if len(ids) == 0 {
 		return founders, nil

@@ -8,14 +8,15 @@ import (
 	"strings"
 	"time"
 	"vc-go/config"
-	"vc-go/datasource"
-	"vc-go/pkg/gstr"
+	"vc-go/datasource/dbdao"
+
+	"github.com/cv70/pkgo/gstr"
 
 	"github.com/golang-jwt/jwt/v5"
 )
 
 // createUserByPhone 根据手机号创建用户
-func (d *UserDomain) createUserByPhone(ctx context.Context, phone, deviceID string) (*datasource.User, error) {
+func (d *UserDomain) createUserByPhone(ctx context.Context, phone, deviceID string) (*dbdao.User, error) {
 	// 生成唯一用户名
 	username, err := d.generateUniqueUsername(ctx, phone)
 	if err != nil {
@@ -23,7 +24,7 @@ func (d *UserDomain) createUserByPhone(ctx context.Context, phone, deviceID stri
 	}
 
 	// 创建用户记录
-	user := datasource.User{
+	user := dbdao.User{
 		Phone:      phone,
 		Username:   username,
 		DeviceID:   deviceID,

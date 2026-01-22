@@ -11,11 +11,11 @@ type UploadBPReq struct {
 }
 
 type UploadBPRes struct {
-	ID string `json:"id"`
+	ID uint `json:"id"`
 }
 
 type RecommendInvestorsReq struct {
-	BPID string `json:"bp_id" binding:"required"`
+	BPID uint   `json:"bp_id" binding:"required"`
 	TopN int    `json:"top_n" default:"10"`
 }
 

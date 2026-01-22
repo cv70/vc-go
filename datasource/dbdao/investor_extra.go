@@ -1,6 +1,8 @@
 package dbdao
 
-import "github.com/pkg/errors"
+import (
+	"github.com/pkg/errors"
+)
 
 // InvestorExtra 投资人额外信息结构
 type InvestorExtra struct {
@@ -16,10 +18,6 @@ type InvestorExtra struct {
 func (d *DB) InsertInvestor(investor *InvestorExtra) error {
 	if investor == nil {
 		return errors.New("investor extra is empty")
-	}
-	err := investor.Reset()
-	if err != nil {
-		return err
 	}
 	result := d.DB().Create(investor)
 	if result.Error != nil {

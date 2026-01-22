@@ -5,7 +5,8 @@ import (
 	"net/http"
 	"time"
 	"vc-go/config"
-	"vc-go/pkg/conv"
+
+	"github.com/cv70/pkgo/conv"
 
 	"github.com/cloudwego/eino-ext/components/model/openai"
 	"github.com/cloudwego/eino-ext/components/model/qwen"

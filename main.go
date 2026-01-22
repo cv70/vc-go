@@ -9,7 +9,7 @@ import (
 	"vc-go/domain/news"
 	"vc-go/domain/policy"
 	"vc-go/infra"
-	"vc-go/pkg/mistake"
+	"github.com/cv70/pkgo/mistake"
 
 	"github.com/gin-gonic/gin"
 )

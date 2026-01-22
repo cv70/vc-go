@@ -6,10 +6,11 @@ import (
 	"strings"
 	"time"
 	"vc-go/config"
-	"vc-go/dao"
+
 	"vc-go/datasource"
 	"vc-go/infra"
-	"vc-go/pkg/mistake"
+
+	"github.com/cv70/pkgo/mistake"
 
 	"github.com/go-rod/rod"
 	"github.com/go-rod/rod/lib/launcher"
@@ -32,10 +33,10 @@ func main() {
 }
 
 type PolicyCrawler struct {
-	db *dao.DB
+	db *datasource.DB
 }
 
-func NewPolicyCrawler(db *dao.DB) *PolicyCrawler {
+func NewPolicyCrawler(db *datasource.DB) *PolicyCrawler {
 	return &PolicyCrawler{
 		db: db,
 	}
@@ -119,7 +120,10 @@ func (c *PolicyCrawler) extractPolicyDetails(browser *rod.Browser, url string) (
 
 	// 提取标题
 	var title string
-	titleEl := page.Timeout(5 * time.Second).Element("h1, .title, .article-title, [class*='title'], h2, h3")
+	titleEl, err := page.Timeout(5 * time.Second).Element("h1, .title, .article-title, [class*='title'], h2, h3")
+	if err != nil {
+		return nil, err
+	}
 	if titleEl != nil {
 		title = titleEl.MustText()
 	} else {
@@ -129,7 +133,10 @@ func (c *PolicyCrawler) extractPolicyDetails(browser *rod.Browser, url string) (
 
 	// 提取内容
 	var content string
-	contentEl := page.Timeout(5 * time.Second).Element(".content, .article-content, .detail-content, [class*='content'], .main-content, .article-body, .post-content")
+	contentEl, err := page.Timeout(5 * time.Second).Element(".content, .article-content, .detail-content, [class*='content'], .main-content, .article-body, .post-content")
+	if err != nil {
+		return nil, err
+	}
 	if contentEl != nil {
 		content = contentEl.MustText()
 	} else {
@@ -142,7 +149,10 @@ func (c *PolicyCrawler) extractPolicyDetails(browser *rod.Browser, url string) (
 
 	// 提取发布日期（这需要根据具体网站的结构进行调整）
 	var publishDate string
-	dateEl := page.Timeout(5 * time.Second).Element("[class*='date'], [class*='time'], .publish-time, time, [class*='publish']")
+	dateEl, err := page.Timeout(5 * time.Second).Element("[class*='date'], [class*='time'], .publish-time, time, [class*='publish']")
+	if err != nil {
+		return nil, err
+	}
 	if dateEl != nil {
 		publishDate = dateEl.MustText()
 	} else {

@@ -4,10 +4,9 @@ import (
 	"context"
 	"crypto/rand"
 	"fmt"
+	"log/slog"
 	"math/big"
 	"time"
-
-	"k8s.io/klog/v2"
 )
 
 // SendSMSCode 发送短信验证码
@@ -24,13 +23,13 @@ func (d *UserDomain) SendSMSCode(ctx context.Context, req *SMSSendReq) error {
 	// 使用Redis存储验证码
 	redisKey := fmt.Sprintf("sms:code:%s", req.Phone)
 	if err := d.Redis.Set(ctx, redisKey, code, expireAt.Sub(time.Now())).Err(); err != nil {
-		klog.Errorf("failed to save SMS code to redis: %v", err)
+		slog.Error("failed to save SMS code to redis", slog.Any("e", err))
 		return fmt.Errorf("failed to send SMS code")
 	}
 
 	// 这里应该调用短信服务商API发送验证码
 	// 由于实际短信服务未实现，这里仅记录日志
-	klog.Infof("SMS code %s sent to %s (for testing only)", code, req.Phone)
+	slog.Info("SMS code sent", slog.String("code", code), slog.String("phone", req.Phone))
 
 	return nil
 }
@@ -51,7 +50,7 @@ func (d *UserDomain) VerifySMSCode(ctx context.Context, req *SMSVerifyReq) (*SMS
 
 	// 标记验证码已使用
 	if err := d.Redis.Del(ctx, redisKey).Err(); err != nil {
-		klog.Errorf("failed to delete SMS code from redis: %v", err)
+		slog.Error("failed to delete SMS code from redis", slog.Any("e", err))
 	}
 
 	// 检查用户是否存在

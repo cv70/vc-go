@@ -4,7 +4,8 @@ import (
 	"vc-go/config"
 	"vc-go/datasource/dbdao"
 	"vc-go/datasource/vectordao"
-	"vc-go/pkg/sdk"
+
+	"vc-go/sdk"
 )
 
 type FinancingDomain struct {

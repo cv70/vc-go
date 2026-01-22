@@ -11,7 +11,7 @@ func (d *VectorDB) InsertBusinessPlanVector(ctx context.Context, ids []string, e
 		ctx,
 		"business_plan",
 		"",
-		entity.NewColumnInt64("id", ),
+		entity.NewColumnInt("id", ),
 		entity.NewColumnFloatVector("vector", 768, embeddings),
 	)
 	return err

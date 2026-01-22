@@ -59,6 +59,9 @@ func (d *DB) SearchPolicies(query string) ([]Policy, error) {
 		return []Policy{}, nil
 	}
 	if err := d.DB().Where("title LIKE ? OR content LIKE ?", "%"+query+"%", "%"+query+"%").Find(&policies).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return []Policy{}, nil
+		}
 		return nil, err
 	}
 	return policies, nil
@@ -68,10 +71,6 @@ func (d *DB) SearchPolicies(query string) ([]Policy, error) {
 func (d *DB) InsertPolicy(policy *Policy) error {
 	if policy == nil {
 		return errors.New("policy is empty")
-	}
-	err := policy.Reset()
-	if err != nil {
-		return err
 	}
 	result := d.DB().Create(policy)
 	if result.Error != nil {

@@ -2,10 +2,9 @@ package scylladao
 
 import (
 	"time"
-	"vc-go/pkg/gid"
+	"vc-go/utils"
 
 	"github.com/gocql/gocql"
-	"github.com/google/uuid"
 )
 
 type ScyllaDB gocql.Session
@@ -19,16 +18,15 @@ func (d *ScyllaDB) DB() *gocql.Session {
 }
 
 type BaseModel struct {
-	ID        uuid.UUID
+	ID        int64
 	UpdatedAt time.Time
 }
 
 func (m *BaseModel) Reset() (err error) {
-	m.ID, err = gid.NewUUID()
+	m.ID, err = utils.NewIDInt64()
 	if err != nil {
 		return err
 	}
-	sec, nsec := m.ID.Time().UnixTime()
-	m.UpdatedAt = time.Unix(sec, nsec)
+	m.UpdatedAt = utils.IDInt64ToTime(m.ID)
 	return nil
 }
