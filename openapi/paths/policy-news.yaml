@@ -1,0 +1,57 @@
+paths:
+  /api/v1/policy/list:
+    post:
+      tags: [Policy]
+      summary: List policies
+      operationId: listPolicies
+      responses:
+        '200':
+          description: OK
+  /api/v1/policy/get:
+    post:
+      tags: [Policy]
+      summary: Get one policy
+      operationId: getPolicy
+      responses:
+        '200':
+          description: OK
+  /api/v1/policy/search:
+    post:
+      tags: [Policy]
+      summary: Search policies
+      operationId: searchPolicies
+      responses:
+        '200':
+          description: OK
+  /api/v1/policy/match:
+    post:
+      tags: [Policy]
+      summary: Match policies for founder profile
+      operationId: matchPolicies
+      responses:
+        '200':
+          description: OK
+  /api/v1/news/get:
+    post:
+      tags: [News]
+      summary: Get news
+      operationId: getNews
+      responses:
+        '200':
+          description: OK
+  /api/v1/news/search:
+    post:
+      tags: [News]
+      summary: Search news
+      operationId: searchNews
+      responses:
+        '200':
+          description: OK
+  /api/v1/news/add:
+    post:
+      tags: [News]
+      summary: Add news item
+      operationId: addNews
+      responses:
+        '200':
+          description: OK

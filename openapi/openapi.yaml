@@ -1,0 +1,389 @@
+openapi: 3.1.0
+info:
+  title: ChuangYeTong Venture OS API
+  version: 1.0.0
+  description: Founder-Investor matching platform APIs.
+jsonSchemaDialect: https://json-schema.org/draft/2020-12/schema
+servers:
+  - url: https://api.example.com
+    description: Production
+  - url: https://staging-api.example.com
+    description: Staging
+  - url: http://localhost:8888
+    description: Local
+security:
+  - bearerAuth: []
+tags:
+  - name: Founder
+  - name: Investor
+  - name: Matching
+  - name: BusinessPlan
+  - name: Policy
+  - name: News
+paths:
+  /api/v1/founder/register:
+    post:
+      tags: [Founder]
+      summary: Register founder profile
+      operationId: registerFounder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, stage]
+              properties:
+                name:
+                  type: string
+                stage:
+                  type: string
+                sectors:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseFounder'
+  /api/v1/founder/search:
+    post:
+      tags: [Founder]
+      summary: Search founders
+      operationId: searchFounders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                keyword:
+                  type: [string, 'null']
+                stages:
+                  type: array
+                  items:
+                    type: string
+                sectors:
+                  type: array
+                  items:
+                    type: string
+                cursor:
+                  type: [string, 'null']
+                limit:
+                  type: integer
+                  minimum: 1
+                  maximum: 100
+                  default: 20
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseFounderSearch'
+  /api/v1/founder/match-investors:
+    post:
+      tags: [Matching]
+      summary: Match investors for founder
+      operationId: matchInvestorsForFounder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [founder_id]
+              properties:
+                founder_id:
+                  type: string
+                  format: uuid
+                top_k:
+                  type: integer
+                  minimum: 1
+                  maximum: 100
+                  default: 20
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseMatchResults'
+  /api/v1/investor/register:
+    post:
+      tags: [Investor]
+      summary: Register investor profile
+      operationId: registerInvestor
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseInvestor'
+  /api/v1/investor/search:
+    post:
+      tags: [Investor]
+      summary: Search investors
+      operationId: searchInvestors
+      responses:
+        '200':
+          description: OK
+  /api/v1/investor/match-founders:
+    post:
+      tags: [Matching]
+      summary: Match founders for investor
+      operationId: matchFoundersForInvestor
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseMatchResults'
+  /api/v1/finance/business/create:
+    post:
+      tags: [BusinessPlan]
+      summary: Create business plan
+      operationId: createBusinessPlan
+      responses:
+        '200':
+          description: OK
+  /api/v1/finance/business/plan:
+    post:
+      tags: [BusinessPlan]
+      summary: Get one business plan
+      operationId: getBusinessPlan
+      responses:
+        '200':
+          description: OK
+  /api/v1/finance/business/plans:
+    post:
+      tags: [BusinessPlan]
+      summary: List business plans
+      operationId: listBusinessPlans
+      responses:
+        '200':
+          description: OK
+  /api/v1/finance/business/update:
+    post:
+      tags: [BusinessPlan]
+      summary: Update business plan
+      operationId: updateBusinessPlan
+      responses:
+        '200':
+          description: OK
+  /api/v1/finance/business/delete:
+    post:
+      tags: [BusinessPlan]
+      summary: Delete business plan
+      operationId: deleteBusinessPlan
+      responses:
+        '200':
+          description: OK
+  /api/v1/policy/list:
+    post:
+      tags: [Policy]
+      summary: List policies
+      operationId: listPolicies
+      responses:
+        '200':
+          description: OK
+  /api/v1/policy/get:
+    post:
+      tags: [Policy]
+      summary: Get one policy
+      operationId: getPolicy
+      responses:
+        '200':
+          description: OK
+  /api/v1/policy/search:
+    post:
+      tags: [Policy]
+      summary: Search policies
+      operationId: searchPolicies
+      responses:
+        '200':
+          description: OK
+  /api/v1/policy/match:
+    post:
+      tags: [Policy]
+      summary: Match policies for founder profile
+      operationId: matchPolicies
+      responses:
+        '200':
+          description: OK
+  /api/v1/news/get:
+    post:
+      tags: [News]
+      summary: Get news
+      operationId: getNews
+      responses:
+        '200':
+          description: OK
+  /api/v1/news/search:
+    post:
+      tags: [News]
+      summary: Search news
+      operationId: searchNews
+      responses:
+        '200':
+          description: OK
+  /api/v1/news/add:
+    post:
+      tags: [News]
+      summary: Add news item
+      operationId: addNews
+      responses:
+        '200':
+          description: OK
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ResponseEnvelope:
+      type: object
+      required: [code, message, request_id]
+      properties:
+        code:
+          type: integer
+          description: 0 means success.
+        message:
+          type: string
+        request_id:
+          type: string
+        data: {}
+    Founder:
+      type: object
+      required: [id, name, stage, sectors, created_at, updated_at]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        stage:
+          type: string
+          enum: [idea, pre_seed, seed, pre_a, a]
+        sectors:
+          type: array
+          items:
+            type: string
+        location:
+          type: [string, 'null']
+        funding_target_cny:
+          type: [number, 'null']
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    Investor:
+      type: object
+      required: [id, name, preferred_stages, preferred_sectors, created_at, updated_at]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        preferred_stages:
+          type: array
+          items:
+            type: string
+        preferred_sectors:
+          type: array
+          items:
+            type: string
+        ticket_min_cny:
+          type: [number, 'null']
+        ticket_max_cny:
+          type: [number, 'null']
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    MatchReason:
+      type: object
+      required: [factor, weight, explanation]
+      properties:
+        factor:
+          type: string
+        weight:
+          type: number
+        explanation:
+          type: string
+    MatchResult:
+      type: object
+      required: [target_id, score, reasons]
+      properties:
+        target_id:
+          type: string
+          format: uuid
+        score:
+          type: number
+          minimum: 0
+          maximum: 1
+        reasons:
+          type: array
+          items:
+            $ref: '#/components/schemas/MatchReason'
+        risks:
+          type: array
+          items:
+            type: string
+    CursorPageResponseFounder:
+      type: object
+      required: [items, next_cursor, has_more]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Founder'
+        next_cursor:
+          type: [string, 'null']
+        has_more:
+          type: boolean
+    ResponseFounder:
+      allOf:
+        - $ref: '#/components/schemas/ResponseEnvelope'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/Founder'
+    ResponseInvestor:
+      allOf:
+        - $ref: '#/components/schemas/ResponseEnvelope'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/Investor'
+    ResponseFounderSearch:
+      allOf:
+        - $ref: '#/components/schemas/ResponseEnvelope'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/CursorPageResponseFounder'
+    ResponseMatchResults:
+      allOf:
+        - $ref: '#/components/schemas/ResponseEnvelope'
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                results:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/MatchResult'

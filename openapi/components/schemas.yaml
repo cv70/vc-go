@@ -1,0 +1,146 @@
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ResponseEnvelope:
+      type: object
+      required: [code, message, request_id]
+      properties:
+        code:
+          type: integer
+          description: 0 means success.
+        message:
+          type: string
+        request_id:
+          type: string
+        data: {}
+    Founder:
+      type: object
+      required: [id, name, stage, sectors, created_at, updated_at]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        stage:
+          type: string
+          enum: [idea, pre_seed, seed, pre_a, a]
+        sectors:
+          type: array
+          items:
+            type: string
+        location:
+          type: [string, 'null']
+        funding_target_cny:
+          type: [number, 'null']
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    Investor:
+      type: object
+      required: [id, name, preferred_stages, preferred_sectors, created_at, updated_at]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        preferred_stages:
+          type: array
+          items:
+            type: string
+        preferred_sectors:
+          type: array
+          items:
+            type: string
+        ticket_min_cny:
+          type: [number, 'null']
+        ticket_max_cny:
+          type: [number, 'null']
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    MatchReason:
+      type: object
+      required: [factor, weight, explanation]
+      properties:
+        factor:
+          type: string
+        weight:
+          type: number
+        explanation:
+          type: string
+    MatchResult:
+      type: object
+      required: [target_id, score, reasons]
+      properties:
+        target_id:
+          type: string
+          format: uuid
+        score:
+          type: number
+          minimum: 0
+          maximum: 1
+        reasons:
+          type: array
+          items:
+            $ref: '#/components/schemas/MatchReason'
+        risks:
+          type: array
+          items:
+            type: string
+    CursorPageResponseFounder:
+      type: object
+      required: [items, next_cursor, has_more]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Founder'
+        next_cursor:
+          type: [string, 'null']
+        has_more:
+          type: boolean
+    ResponseFounder:
+      allOf:
+        - $ref: '#/components/schemas/ResponseEnvelope'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/Founder'
+    ResponseInvestor:
+      allOf:
+        - $ref: '#/components/schemas/ResponseEnvelope'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/Investor'
+    ResponseFounderSearch:
+      allOf:
+        - $ref: '#/components/schemas/ResponseEnvelope'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/CursorPageResponseFounder'
+    ResponseMatchResults:
+      allOf:
+        - $ref: '#/components/schemas/ResponseEnvelope'
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                results:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/MatchResult'

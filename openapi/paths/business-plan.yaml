@@ -1,0 +1,41 @@
+paths:
+  /api/v1/finance/business/create:
+    post:
+      tags: [BusinessPlan]
+      summary: Create business plan
+      operationId: createBusinessPlan
+      responses:
+        '200':
+          description: OK
+  /api/v1/finance/business/plan:
+    post:
+      tags: [BusinessPlan]
+      summary: Get one business plan
+      operationId: getBusinessPlan
+      responses:
+        '200':
+          description: OK
+  /api/v1/finance/business/plans:
+    post:
+      tags: [BusinessPlan]
+      summary: List business plans
+      operationId: listBusinessPlans
+      responses:
+        '200':
+          description: OK
+  /api/v1/finance/business/update:
+    post:
+      tags: [BusinessPlan]
+      summary: Update business plan
+      operationId: updateBusinessPlan
+      responses:
+        '200':
+          description: OK
+  /api/v1/finance/business/delete:
+    post:
+      tags: [BusinessPlan]
+      summary: Delete business plan
+      operationId: deleteBusinessPlan
+      responses:
+        '200':
+          description: OK

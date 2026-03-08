@@ -1,0 +1,144 @@
+.page {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 40px 20px 56px;
+}
+
+.hero {
+  margin-bottom: 20px;
+}
+
+.eyebrow {
+  margin: 0;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #3c5e83;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.hero h1 {
+  margin: 8px 0 4px;
+  font-size: 40px;
+  line-height: 1.08;
+}
+
+.subtitle {
+  margin: 0;
+  color: #435574;
+}
+
+.panel {
+  background: #ffffffdd;
+  backdrop-filter: blur(8px);
+  border: 1px solid #d6dff0;
+  border-radius: 16px;
+  padding: 14px;
+}
+
+.searchRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+
+.searchInput {
+  width: 100%;
+  border: 1px solid #c8d5ee;
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 14px;
+  outline: none;
+}
+
+.searchInput:focus {
+  border-color: #376fc5;
+  box-shadow: 0 0 0 3px #dce8ff;
+}
+
+.searchButton {
+  border: none;
+  border-radius: 12px;
+  padding: 0 16px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(130deg, #2b63bb, #1f84a5);
+  cursor: pointer;
+}
+
+.searchButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.hint {
+  margin: 10px 2px 0;
+  color: #4d607f;
+  font-size: 13px;
+}
+
+.errorText {
+  margin: 8px 2px 0;
+  color: #a72f2f;
+  font-size: 13px;
+}
+
+.grid {
+  margin-top: 18px;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #d8e1f2;
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.cardHeader h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.badge {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #195c80;
+  background: #d7f2ff;
+}
+
+.meta {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: #3f4f6d;
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 28px 14px 40px;
+  }
+
+  .hero h1 {
+    font-size: 30px;
+  }
+
+  .searchRow {
+    grid-template-columns: 1fr;
+  }
+
+  .searchButton {
+    height: 42px;
+  }
+}

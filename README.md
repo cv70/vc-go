@@ -2,6 +2,34 @@
 
 ## 1. 产品定位
 创业通是一款面向中国初创企业与创业者的全栈式智能服务平台，整合政策服务、融资对接、项目管理、资源匹配与知识赋能五大核心模块，打造"一站式创业操作系统"。
+创业通是一个服务“创业者 x 投资人”真实连接的 Venture Operating System。
+
+它不是信息聚合站，而是一个把以下环节连成闭环的系统：
+- 发现：谁值得我联系
+- 评估：为什么匹配，风险在哪里
+- 连接：如何高效发起并推进沟通
+- 学习：每次匹配结果如何反哺模型与策略
+
+文档导航
+- 产品操作系统：`docs/product-os.md`
+- 未来架构蓝图：`docs/architecture-future.md`
+- 路线图（12-18 个月）：`docs/roadmap.md`
+- 指标与实验系统：`docs/kpi-and-experiments.md`
+- 当前架构入口：`ARCH.md`
+- API 契约治理：`docs/api-contract.md`
+- OpenAPI 单一真相源：`openapi/openapi.yaml`
+
+一句话价值主张
+- 为创业者提供“更高命中率的融资连接”，为投资人提供“更低噪声的项目发现”
+
+谁应该先读什么
+- 投资人/合作方：先读 `docs/product-os.md`，再读 `docs/roadmap.md`
+- 产品/运营团队：先读 `docs/kpi-and-experiments.md`，再读 `docs/product-os.md`
+- 研发团队：先读 `ARCH.md`，再读 `docs/architecture-future.md`
+
+当前实现状态（简述）
+- 当前代码已具备 Founder/Investor/BP/Policy/News 的基础能力和双向匹配接口
+- 更完整的当前与未来架构说明见 `ARCH.md` 与 `docs/architecture-future.md`
 
 ## 2. 商业价值分析
 

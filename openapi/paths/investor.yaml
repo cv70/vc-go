@@ -1,0 +1,33 @@
+paths:
+  /api/v1/investor/register:
+    post:
+      tags: [Investor]
+      summary: Register investor profile
+      operationId: registerInvestor
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseInvestor'
+  /api/v1/investor/search:
+    post:
+      tags: [Investor]
+      summary: Search investors
+      operationId: searchInvestors
+      responses:
+        '200':
+          description: OK
+  /api/v1/investor/match-founders:
+    post:
+      tags: [Matching]
+      summary: Match founders for investor
+      operationId: matchFoundersForInvestor
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseMatchResults'

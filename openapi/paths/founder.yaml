@@ -1,0 +1,93 @@
+paths:
+  /api/v1/founder/register:
+    post:
+      tags: [Founder]
+      summary: Register founder profile
+      operationId: registerFounder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, stage]
+              properties:
+                name:
+                  type: string
+                stage:
+                  type: string
+                sectors:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseFounder'
+  /api/v1/founder/search:
+    post:
+      tags: [Founder]
+      summary: Search founders
+      operationId: searchFounders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                keyword:
+                  type: [string, 'null']
+                stages:
+                  type: array
+                  items:
+                    type: string
+                sectors:
+                  type: array
+                  items:
+                    type: string
+                cursor:
+                  type: [string, 'null']
+                limit:
+                  type: integer
+                  minimum: 1
+                  maximum: 100
+                  default: 20
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseFounderSearch'
+  /api/v1/founder/match-investors:
+    post:
+      tags: [Matching]
+      summary: Match investors for founder
+      operationId: matchInvestorsForFounder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [founder_id]
+              properties:
+                founder_id:
+                  type: string
+                  format: uuid
+                top_k:
+                  type: integer
+                  minimum: 1
+                  maximum: 100
+                  default: 20
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseMatchResults'
